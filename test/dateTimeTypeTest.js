@@ -123,6 +123,19 @@ describe('GraphQL date type', () => {
       })
     })
 
+    it('handles dates as input in arguments', async () => {
+      let someday = '2015-07-24T10:56:42.744Z'
+      let nextDay = '2015-07-25T10:56:42.744Z'
+
+      return expect(
+        await graphql(schema, `query dateQuery($date: DateTime!) { nextDay(date: $date) }`, null, {date: someday})
+      ).to.deep.equal({
+        data: {
+          nextDay: nextDay
+        }
+      })
+    })
+
     it('does not accept alternative date formats', async () => {
       let someday = 'Fri Jul 24 2015 12:56:42 GMT+0200 (CEST)'
 
